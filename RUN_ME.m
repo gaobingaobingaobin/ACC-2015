@@ -96,8 +96,8 @@ print(h, '-dpdf', 'fig1.pdf')
 %% Figure 2: Constant flip angle design for D- E- and A-optimal objectives
 
 % define objective functions 
-f_D = @(theta) log(abs(det(fisher_information(theta*ones(model.N, model.n + model.m), model, phi))));
-f_E = @(theta) max(eig(fisher_information(theta*ones(model.N, model.n + model.m), model, phi)));
+f_D = @(theta) (abs(det(fisher_information(theta*ones(model.N, model.n + model.m), model, phi))));
+f_E = @(theta) min(eig(fisher_information(theta*ones(model.N, model.n + model.m), model, phi)));
 f_A = @(theta) 1/trace(inv(fisher_information(theta*ones(model.N, model.n + model.m), model, phi)));
 
 % plot objective function values 
@@ -117,9 +117,9 @@ end
 h = figure; 
 set(gca,'ColorOrder', berkeley_colors, 'NextPlot', 'replacechildren')
 plot(theta_vals, fD_vals, 'LineWidth', 2); 
-axis([0 pi/2 0 25]); 
+axis([0 pi/2 0 8e09]); 
 xlabel('\theta')
-ylabel('log(det(I))')
+ylabel('det(I)')
 title('D-optimal objective function')
 box on
 print(h, '-dpdf', 'fig2a.pdf')
@@ -128,9 +128,9 @@ print(h, '-dpdf', 'fig2a.pdf')
 h = figure; 
 set(gca,'ColorOrder', berkeley_colors, 'NextPlot', 'replacechildren')
 plot(theta_vals, fE_vals, 'LineWidth', 2); 
-axis([0 pi/2 0 8e05]); 
+axis([0 pi/2 0 3e04]); 
 xlabel('\theta')
-ylabel('max(eig(I))')
+ylabel('min(eig(I))')
 title('E-optimal objective function')
 box on
 print(h, '-dpdf', 'fig2b.pdf')
